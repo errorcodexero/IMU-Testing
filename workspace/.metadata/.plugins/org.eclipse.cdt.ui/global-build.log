@@ -1,0 +1,10 @@
+09:35:05 **** Clean-only build of configuration Debug for project ADIS16448 ****
+rm -rf src/ADIS16448_IMU.o src/Robot.o src/Robot.d FRCUserProgram src/ADIS16448_IMU.d 
+09:36:29 **** Rebuild of configuration Debug for project ADIS16448 ****
+Info: Internal Builder is used for build
+arm-frc-linux-gnueabi-g++ -std=c++1y "-IC:\\Users\\developer/wpilib/cpp/current/include" "-IC:\\Users\\developer\\IMU-Testing\\workspace\\ADIS16448\\src" -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\ADIS16448_IMU.o" "..\\src\\ADIS16448_IMU.cpp" 
+arm-frc-linux-gnueabi-g++ -std=c++1y "-IC:\\Users\\developer/wpilib/cpp/current/include" "-IC:\\Users\\developer\\IMU-Testing\\workspace\\ADIS16448\\src" -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\Robot.o" "..\\src\\Robot.cpp" 
+arm-frc-linux-gnueabi-g++ "-LC:\\Users\\developer/wpilib/cpp/current/lib" -Wl,-rpath,/opt/GenICam_v2_3/bin/Linux_armv7-a,-rpath,/usr/local/frc/rpath-lib -o FRCUserProgram "src\\ADIS16448_IMU.o" "src\\Robot.o" -lwpi 
+Info: Nothing to build for ADIS16448
+Info: Nothing to build for Arcade Drive
+Info: Nothing to build for Mecanum Drive

@@ -1,0 +1,124 @@
+#include "WPILib.h"
+#include "ADIS16448_IMU.h"
+#include "math.h"
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <cstdio>
+
+using namespace std;
+
+class Robot: public IterativeRobot
+{
+private:
+	RobotDrive myRobot;
+	Joystick stick;
+
+	LiveWindow *lw = LiveWindow::GetInstance();
+	SendableChooser *chooser;
+	const std::string autoNameDefault = "Default";
+	const std::string autoNameCustom = "My Auto";
+	std::string autoSelected;
+	ADIS16448_IMU *imu;
+
+	void RobotInit()
+	{
+		myRobot(0, 1),
+		stick(0);
+
+		chooser = new SendableChooser();
+		chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
+		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
+		SmartDashboard::PutData("Auto Modes", chooser);
+
+		imu = new ADIS16448_IMU;
+		imu->Reset();
+		imu->Calibrate();
+
+	}
+
+	void DisabledInit()
+	{
+
+	}
+
+
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
+	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
+	 * Dashboard, remove all of the chooser code and uncomment the GetString line to get the auto name from the text box
+	 * below the Gyro
+	 *
+	 * You can add additional auto modes by adding additional comparisons to the if-else structure below with additional strings.
+	 * If using the SendableChooser make sure to add them to the chooser code above as well.
+	 */
+	void AutonomousInit()
+	{
+		autoSelected = *((std::string*)chooser->GetSelected());
+		//std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
+		std::cout << "Auto selected: " << autoSelected << std::endl;
+
+		if(autoSelected == autoNameCustom){
+			//Custom Auto goes here
+		} else {
+			//Default Auto goes here
+		}
+	}
+
+	void AutonomousPeriodic()
+	{
+		if(autoSelected == autoNameCustom){
+			//Custom Auto goes here
+		} else {
+			//Default Auto goes here
+		}
+	}
+
+	void TeleopInit()
+	{
+
+	}
+
+	void TeleopPeriodic()
+	{
+		/*if(!m_firstSample)
+		{
+			double v0X = m_curVX;
+			double p0X = m_curX;
+			double dT = (imu->GetLastSampleTime()-m_preT);
+			m_curVX = imu->GetAccelX()*9.8*dT+v0X;
+			m_curX = .5*imu->GetAccelX()*9.8*dT*dT+v0X*dT+p0X;
+		}
+		m_preT = imu->GetLastSampleTime();
+		m_firstSample = false;*/
+
+	    ostringstream os;
+	    //os << "Value  " << imu->GetAngle()  << endl;
+	    //os << "Pitch  " << imu->GetPitch()  << endl;
+	    //os << "Roll   " << imu->GetRoll()   << endl;
+	    //os << "Yaw    " << imu->GetYaw()    << endl;
+	    os << "AccelX " << imu->GetAccelX()*9.8 << endl;
+	    os << "AccelY " << imu->GetAccelY()*9.8 << endl;
+	    os << "AccelZ " << imu->GetAccelZ()*9.8 << endl;
+	    os << "AngleX " << imu->GetAngleX() << endl;
+	    os << "AngleY " << imu->GetAngleY() << endl;
+	    os << "AngleZ " << imu->GetAngleZ() << endl;
+	    os << "LST    " << imu->GetLastSampleTime() << endl;
+	    os << "D/s    " << imu->GetRateZ() << endl;
+
+	    // DriverStation::ReportError(os.str());
+	    cerr << os.str();
+
+		myRobot.TankDrive();
+		Wait(0.005);
+
+		//SmartDashboard::PutData("IMU", imu);
+	}
+
+	void TestPeriodic()
+	{
+		lw->Run();
+	}
+};
+
+START_ROBOT_CLASS(Robot)
